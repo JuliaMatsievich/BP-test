@@ -1,0 +1,25 @@
+.container {
+	border-radius: 10px;
+	flex: 1 0 45%;
+	border: 1px solid rgb(194, 193, 193);
+	padding: 10px;
+}
+
+.title {
+}
+
+.subtitle {
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.parkingList {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.nameUser {
+	font-weight: 400;
+}

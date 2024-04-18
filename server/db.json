@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "id": "12f",
+      "firstName": "Иван",
+      "lastName": "Иванов",
+      "patronymic": "Иванович",
+      "parkingList": [
+        {
+          "id": "16p",
+          "name": "Парковка 1"
+        },
+        {
+          "id": "17p",
+          "name": "Парковка 2"
+        }
+      ]
+    },
+    {
+      "id": "13f",
+      "firstName": "Петр",
+      "lastName": "Петров",
+      "patronymic": "Петрович",
+      "parkingList": []
+    }
+  ],
+  "parking": [
+    {
+      "id": "16p",
+      "name": "Парковка 1"
+    },
+    {
+      "id": "17p",
+      "name": "Парковка 2"
+    }
+  ]
+}
