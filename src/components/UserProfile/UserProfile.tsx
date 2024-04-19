@@ -18,13 +18,12 @@ export const UserProfile = observer(() => {
     getParkingApi().then((response: IParking[]) => {
       parkingStore.setParking(response);
     });
-		parkingStore.setParkingCurrentUser(usersStore.currentUser.parkingList);
+    parkingStore.setParkingCurrentUser(usersStore.currentUser.parkingList);
   }, [parkingStore, usersStore.currentUser.parkingList]);
 
   const handleChecked = (id: string) => {
     return parkingStore.parkingCurrentUser.some((parking) => parking.id === id);
   };
-
 
   const handleToggleParking = (parking: IParking) => {
     if (parkingStore.parkingCurrentUser.find((p) => p.id === parking.id)) {
@@ -32,7 +31,7 @@ export const UserProfile = observer(() => {
     } else {
       parkingStore.addParking(parking);
     }
-		updateParkingUserApi(
+    updateParkingUserApi(
       parkingStore.parkingCurrentUser,
       usersStore.currentUser.id
     );

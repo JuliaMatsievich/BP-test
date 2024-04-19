@@ -15,15 +15,6 @@ class UsersStore {
     makeAutoObservable(this);
   }
 
-  // async getUsers() {
-  //   try {
-  //     const res = await getUsersApi();
-  //     this.users = res as IUser[];
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
   setUsers(users: IUser[]) {
     this.users = users;
   }
