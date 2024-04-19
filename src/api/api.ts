@@ -3,7 +3,7 @@ import { IParking } from "../types/types";
 
 const SERVER_URL = "http://localhost:3001";
 
-export const getUsersApi = () => {
+export const getUsersApi = async () => {
   return axios
     .get(`${SERVER_URL}/users`)
     .then(function (response) {
@@ -15,7 +15,7 @@ export const getUsersApi = () => {
     });
 };
 
-export const getParkingApi = () => {
+export const getParkingApi = async () => {
   return axios
     .get(`${SERVER_URL}/parking`)
     .then(function (response) {
@@ -26,13 +26,15 @@ export const getParkingApi = () => {
     });
 };
 
-export const updateParkingUserApi = (parking: IParking, idUser: string) => {
+export const updateParkingUserApi = async (
+	parkingList: IParking[],
+  userId: string
+) => {
   return axios
-    .post(`${SERVER_URL}/users/${idUser}`, {
-
+    .patch(`${SERVER_URL}/users/${userId}`, {
+      parkingList: parkingList,
     })
     .then(function (response) {
-      console.log("p", response.data);
       return response.data;
     })
     .catch(function (error) {
@@ -40,17 +42,18 @@ export const updateParkingUserApi = (parking: IParking, idUser: string) => {
     });
 };
 
-export const getParkingApis = (userId: string) => {
-  return axios
-    .get(`${SERVER_URL}/users/${userId}`)
-    .then(function (response) {
-      console.log(userId);
-      console.log("pr", response.data);
-      const parkinglist = response.data.parkingList;
-      console.log("parkinglist", parkinglist);
-      return response.data;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-};
+// export const deleteParkingUserApi = async (
+//   parking: IParking,
+//   userId: string
+// ) => {
+//   return axios
+//     .delete(`${SERVER_URL}/users/${userId}`, {
+//       parkingList: [parking],
+//     })
+//     .then(function (response) {
+//       return response.data;
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
+// };

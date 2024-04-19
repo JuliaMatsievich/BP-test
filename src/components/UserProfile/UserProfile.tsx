@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "./UserProfile.module.css";
 import { observer } from "mobx-react";
-import usersStore from "../../store/users";
-import parkingStore from "../../store/parking";
 import { IParking } from "../../types/types";
-// import { getParkingApis, updateParkingUserApi } from "../../api/api";
+import { useDataStore } from "../../store/context";
+import { getParkingApi, updateParkingUserApi } from "../../api/api";
 
 export const UserProfile = observer(() => {
+  const store = useDataStore();
+  const { usersStore, parkingStore } = store;
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
@@ -14,23 +15,27 @@ export const UserProfile = observer(() => {
   };
 
   useEffect(() => {
-    parkingStore.getParking();
-  }, []);
+    getParkingApi().then((response: IParking[]) => {
+      parkingStore.setParking(response);
+    });
+		parkingStore.setParkingCurrentUser(usersStore.currentUser.parkingList);
+  }, [parkingStore, usersStore.currentUser.parkingList]);
 
-  // useEffect(() => {
-  //   updateParkingUserApi(
-  //     {
-  //       id: "17p",
-  //       name: "Парковка 2",
-  //     },
-  //     "13f"
-  //   );
-  //   getParkingApis("12f");
-  // }, []);
+  const handleChecked = (id: string) => {
+    return parkingStore.parkingCurrentUser.some((parking) => parking.id === id);
+  };
+
 
   const handleToggleParking = (parking: IParking) => {
-    parkingStore.addParking(parking, usersStore.currentUser);
-    // console.log("currentUser", usersStore.currentUser.parkingList);
+    if (parkingStore.parkingCurrentUser.find((p) => p.id === parking.id)) {
+      parkingStore.deleteParking(parking);
+    } else {
+      parkingStore.addParking(parking);
+    }
+		updateParkingUserApi(
+      parkingStore.parkingCurrentUser,
+      usersStore.currentUser.id
+    );
   };
 
   return (
@@ -55,7 +60,7 @@ export const UserProfile = observer(() => {
                   type="checkbox"
                   value={parking.id}
                   className={styles.parking}
-                  // checked={value == {parking.id} ? true : false}
+                  checked={handleChecked(parking.id)}
                   onChange={() => handleToggleParking(parking)}
                 />
                 {parking.name}

@@ -9,10 +9,6 @@
         {
           "id": "16p",
           "name": "Парковка 1"
-        },
-        {
-          "id": "17p",
-          "name": "Парковка 2"
         }
       ]
     },
@@ -21,7 +17,12 @@
       "firstName": "Петр",
       "lastName": "Петров",
       "patronymic": "Петрович",
-      "parkingList": []
+      "parkingList": [
+        {
+          "id": "17p",
+          "name": "Парковка 2"
+        }
+      ]
     }
   ],
   "parking": [

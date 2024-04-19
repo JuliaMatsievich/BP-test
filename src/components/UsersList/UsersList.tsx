@@ -1,18 +1,23 @@
 import { observer } from "mobx-react";
 import styles from "./UsersList.module.css";
-import { useEffect} from "react";
-import usersStore from "../../store/users";
+import { useEffect } from "react";
+import { useDataStore } from "../../store/context";
+import { getUsersApi } from "../../api/api";
+import { IUser } from "../../types/types";
 
 export const UsersList = observer(() => {
+  const store = useDataStore();
+  const { usersStore, parkingStore } = store;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		usersStore.setCurrentUser(e.target.value);
-    console.log("currentUser", usersStore.currentUser.id);
+    usersStore.setCurrentUser(e.target.value);
   };
 
   useEffect(() => {
-    usersStore.getUsers();
-  }, []);
+    getUsersApi().then((response: IUser[]) => {
+      usersStore.setUsers(response);
+    });
+  }, [usersStore.currentUser, parkingStore.parkingCurrentUser, usersStore]);
 
   return (
     <>
@@ -26,7 +31,6 @@ export const UsersList = observer(() => {
                 name="radio"
                 value={user.id}
                 className={styles.user}
-                // checked={value == "1" ? true : false}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   handleChange(e)
                 }

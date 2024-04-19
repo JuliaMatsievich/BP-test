@@ -1,36 +1,32 @@
 import { makeAutoObservable } from "mobx";
-import { IParking, IUser } from "../types/types";
-import { getParkingApi } from "../api/api";
+import { IParking } from "../types/types";
 
 class ParkingStore {
   parking: IParking[] = [];
+  parkingCurrentUser: IParking[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  async getParking() {
-    try {
-      const res = await getParkingApi();
-      this.parking = res as IParking[];
-    } catch (error) {
-      console.log(error);
-    }
+	setParkingCurrentUser (parkingList: IParking[]) {
+		this.parkingCurrentUser = parkingList;
+	}
+
+  setParking(parking: IParking[]) {
+    this.parking = parking;
   }
 
-  addParking(parking: IParking, currentUser: IUser) {
-    currentUser.parkingList.push(parking);
-		console.log("currentUser.parkingList", currentUser.parkingList[0]);
+  addParking(parking: IParking) {
+    this.parkingCurrentUser.push(parking);
   }
 
-  //   setLike: (state, action) => {
-  //   if(Object.keys(state.currentTrack).length !== 0 &&
-  //   state.currentTrack?.id === action.payload.id) {
-  //     state.currentTrack.stared_user.push(action.payload.user)
-  //     console.log('po');
-  //   }
-  //   state?.currentPlaylist?.find(({id}) => id === action.payload.id)?.stared_user?.push(action.payload.user)
-  // },
+  deleteParking(parking: IParking) {
+    this.parkingCurrentUser = this.parkingCurrentUser.filter(
+      ({ id }) => id !== parking.id
+    );
+  }
+
 }
 
-export default new ParkingStore();
+export default ParkingStore;
